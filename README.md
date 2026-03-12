@@ -1,3 +1,8 @@
+[![Python Tests](https://github.com/Joaovabbr/splaz/actions/workflows/tests.yml/badge.svg)](https://github.com/Joaovabbr/splaz/actions/workflows/tests.yml)
+[![PyPI version](https://img.shields.io/pypi/v/splaz.svg)](https://pypi.org/project/splaz/)
+[![Python versions](https://img.shields.io/pypi/pyversions/splaz.svg)](https://pypi.org/project/splaz/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 # SpLaz (Vagas Verdes)
 A SpLaz é uma biblioteca Python de alto nível projetada para automatizar a obtenção de dados LiDAR (nuvens de pontos) da cidade de São Paulo via portal GeoSampa. Ela resolve complexidades de geocodificação, conversão de sistemas de coordenadas (SIRGAS 2000 / UTM 23S) e instabilidades de download de servidores legados.
 
