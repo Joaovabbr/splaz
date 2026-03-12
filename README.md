@@ -19,8 +19,8 @@ O próximo passo do projeto será a publicação no PyPI. Atualmente, a bibliote
 
 Bash
 
-### Instalação em modo editável (ideal para desenvolvimento)
-pip install -e .
+### Instalação via pip
+pip install splaz
 ### 🛠 Exemplos de Uso
 #### 1. Configuração Inicial
 ```Python
