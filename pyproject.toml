@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "splaz"
 version = "0.1.1" # Sempre aumente a versão para um novo upload
 authors = [
-  { name="João Braga", email="joao.braga@exemplo.com" },
+  { name="João Braga", email="joaovab@al.insper.edu.br" },
 ]
 description = "API para facilitar o acesso a dados LiDAR do GeoSampa"
 readme = "README.md" # Faz o conteúdo do README aparecer na home do PyPI
@@ -25,6 +25,7 @@ dependencies = [
     "requests",
     "shapely",
     "pyogrio",
+    "geopy"
 ]
 
 [project.urls]
