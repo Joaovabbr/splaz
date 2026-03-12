@@ -1,18 +1,18 @@
 # SpLaz (Vagas Verdes)
-A Geosp-Laz-API é uma biblioteca Python de alto nível projetada para automatizar a obtenção de dados LiDAR (nuvens de pontos) da cidade de São Paulo via portal GeoSampa. Ela resolve complexidades de geocodificação, conversão de sistemas de coordenadas (SIRGAS 2000 / UTM 23S) e instabilidades de download de servidores legados.
+A SpLaz é uma biblioteca Python de alto nível projetada para automatizar a obtenção de dados LiDAR (nuvens de pontos) da cidade de São Paulo via portal GeoSampa. Ela resolve complexidades de geocodificação, conversão de sistemas de coordenadas (SIRGAS 2000 / UTM 23S) e instabilidades de download de servidores legados.
 
 Este projeto é a base técnica do projeto Vagas Verdes, focado em identificar áreas potenciais para arborização urbana utilizando sensoriamento remoto.
 
 ## 🚀 Funcionalidades
-Geocodificação por Endereço: Identifica automaticamente qual quadrante LiDAR baixar a partir de um endereço textual (ex: "Rua Quatá, 300").
+- Geocodificação por Endereço: Identifica automaticamente qual quadrante LiDAR baixar a partir de um endereço textual (ex: "Rua Quatá, 300").
 
-Busca por Bairro: Lista e baixa todos os quadrantes que compõem um bairro específico.
+- Busca por Bairro: Lista e baixa todos os quadrantes que compõem um bairro específico.
 
-Tratamento de Dados Espaciais: Download e extração automática da grade de articulação (Shapefile) da prefeitura.
+- Tratamento de Dados Espaciais: Download e extração automática da grade de articulação (Shapefile) da prefeitura.
 
-Resiliência de Rede: Sistema de correção de encoding (ISO-8859-1) e verificação de integridade de arquivos ZIP.
+- Resiliência de Rede: Sistema de correção de encoding (ISO-8859-1) e verificação de integridade de arquivos ZIP.
 
-Gestão de Cache: Armazenamento inteligente na pasta local .geosp_laz_api para evitar downloads repetitivos e poupar banda.
+- Gestão de Cache: Armazenamento inteligente na pasta local .geosp_laz_api para evitar downloads repetitivos e poupar banda.
 
 ## 📦 Instalação
 O próximo passo do projeto será a publicação no PyPI. Atualmente, a biblioteca pode ser instalada diretamente via pip a partir do diretório raiz:
@@ -25,10 +25,10 @@ pip install -e .
 #### 1. Configuração Inicial
 ```Python
 
-from geosp_laz_api import GeospLidarClient, GeospGeocoder
+from splaz import GeospLidarClient, GeospGeocoder
 
-client = GeospLidarClient()
-geo = GeospGeocoder(client=client)
+client = SpLaz()
+geo = SpLazGeo(client=client)
 ```
 #### 2. Download por Código do Quadrante
 Ideal quando você já possui o mapeamento da grade de 2020:
@@ -86,7 +86,7 @@ quadrante.save(dest_path="output/lidar")
 ## 📂 Estrutura do Projeto
 ```Plaintext
 
-src/geosp_laz_api/
+src/splaz/
 ├── entities.py    # Representação de objetos LiDAR
 ├── downloader.py  # Lógica de comunicação com GeoSampa
 ├── geocoder.py    # Cálculos espaciais e geolocalização
