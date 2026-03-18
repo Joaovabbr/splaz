@@ -21,7 +21,7 @@ Este projeto é a base técnica do projeto Vagas Verdes, focado em identificar �
 
 ## 📦 Instalação
 
-```` Bash
+``` Bash
 pip install splaz
 ```
 ### 🛠 Exemplos de Uso
