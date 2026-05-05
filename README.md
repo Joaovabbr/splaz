@@ -95,20 +95,3 @@ src/splaz/
 ├── geocoder.py    # Cálculos espaciais e geolocalização
 └── constants.py   # EPSG, URLs e parâmetros de API
 ```
-## 🧪 Testes Automatizados
-A biblioteca possui uma suíte de testes robusta (Unitários, Integração e E2E) que valida desde a lógica de coordenadas até o download real. Para rodar:
-
-```Bash
-pytest
-```
-
-### 📄 Licença
-Distribuído sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
-### 🎓 Contexto Acadêmico
-Este projeto foi desenvolvido como parte de um projeto de Iniciação Científica no Insper.
-
-Autor: João Braga
-
-Perfil: Aluno do 7° semestre de Engenharia da Computação.
-
-Objetivo: Apoiar a análise de dados geoespaciais para o projeto ambiental "Vagas Verdes".
