@@ -1,8 +1,6 @@
 import pytest
-import requests_mock
 import io
 import zipfile
-import os
 from splaz.downloader import SpLaz
 from splaz.entities import LidarQuadrante
 from splaz.constants import GEOSAMPA_DOWNLOAD_URL
@@ -34,7 +32,7 @@ def test_download_quadrante_erro_404(client,requests_mock):
     requests_mock.get(GEOSAMPA_DOWNLOAD_URL, status_code = 404 )
     import requests
 
-    with pytest.raises(requests.exceptions.HTTPError):
+    with pytest.raises(ValueError):
         client.download_quadrante("codigo-inexistente")
 
 def test_processar_zip_invalido(client):

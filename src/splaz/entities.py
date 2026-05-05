@@ -6,7 +6,7 @@ class LidarQuadrante:
     Representa um quadrante LiDAR (MDS 2020) de São Paulo.
     Encapsula o conteúdo binário e metadados do arquivo .laz.
     """
-    def __init__(self, codigo: str, conteudo_binario: bytes = None, nome_arquivo: str = None): 
+    def __init__(self, codigo: str, conteudo_binario: bytes | None = None, nome_arquivo: str | None = None): 
         self.codigo = codigo
         self.conteudo_binario = conteudo_binario
         self.nome_arquivo = nome_arquivo

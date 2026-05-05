@@ -18,7 +18,7 @@ def mock_grid_gdf():
     # Quadrado simples representando um quadrante fictício
     poly = Polygon([(0, 0), (1000, 0), (1000, 1000), (0, 1000)])
     gdf = gpd.GeoDataFrame(
-        {'qmdt_cod': ['3316-153'], 'geometry': [poly]},
+        {'cd_quadric': ['3316-153'], 'geometry': [poly]},
         crs="EPSG:31983"
     )
     return gdf
