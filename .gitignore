@@ -8,6 +8,7 @@ env/
 build/
 dist/
 *.egg-info/
+requirements.txt
 
 # --- Testes e Cobertura ---
 .pytest_cache/

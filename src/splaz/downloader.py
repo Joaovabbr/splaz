@@ -7,6 +7,8 @@ from .constants import (
     GEOSAMPA_DOWNLOAD_URL,
     LAZ_DOWNLOAD_PARAMS,
 )
+import time
+from tqdm import tqdm
 
 class SpLaz:
     """
@@ -33,12 +35,13 @@ class SpLaz:
         except Exception as e:
             raise FileNotFoundError(f"Erro ao localizar grid embarcado: {e}")
 
-    def download_quadrante(self, codigo_quadra: str) -> LidarQuadrante:
+    def download_quadrante(self, codigo_quadra: str, retries: int = 3) -> LidarQuadrante | None:
         """
         Baixa um quadrante LIDAR específico do GeoSampa.
 
         Args:
             codigo_quadra (str): Código do quadrante a ser baixado.
+            retries (int): Número de tentativas em caso de falha no download.
 
         Returns:
             LidarQuadrante: Objeto contendo os dados do quadrante baixado.
@@ -49,9 +52,36 @@ class SpLaz:
             "arqTipo": LAZ_DOWNLOAD_PARAMS["arq_tipo"]
         }
 
-        response = self.session.get(GEOSAMPA_DOWNLOAD_URL, params=params, timeout=30)
+        for attempt in range(retries):
+            try:
+                response = self.session.get(GEOSAMPA_DOWNLOAD_URL, params=params, timeout=30, stream=True)
+                print(f"HTTP response status code: {response.status_code}")
 
-        return self._processar_zip(codigo_quadra, response.content)
+                total_size = int(response.headers.get('content-length', 0))
+                buffer = io.BytesIO()
+                
+                with tqdm(
+                    total=total_size,
+                    unit='B',
+                    unit_scale=True,
+                    desc=f"Baixando {codigo_quadra}",
+                    leave=False
+                ) as pbar:
+                    for chunk in response.iter_content(chunk_size=8192):
+                        if chunk:
+                            buffer.write(chunk)
+                            pbar.update(len(chunk))
+
+                    # Retorna o conteúdo binário direto para o processamento em memória
+                    return self._processar_zip(codigo_quadra, buffer.getvalue())
+            except Exception as e:
+                if attempt < retries - 1:
+                    wait_time = 2 ** attempt  # Backoff exponencial: 1s, 2s, 4s...
+                    time.sleep(wait_time)
+                    continue
+                else:
+                    print(f"Erro ao baixar o quadrante {codigo_quadra} após {retries} tentativas.")
+                    raise e
 
     def _processar_zip(self, codigo: str, conteudo_zip: bytes) -> LidarQuadrante:
         try:

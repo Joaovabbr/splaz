@@ -43,7 +43,6 @@ class SpLazGeo:
         resultado = self.grid[self.grid.contains(ponto_sp)] #type: ignore
         if resultado.empty:
             raise ValueError(f"Coordenadas ({lat}, {lon}) fora da cobertura de SP.")
-        print(resultado.columns)
         return str(resultado.iloc[0]['cd_quadric'])
 
     def get_quadrant_by_address(self, address: str) -> str:
