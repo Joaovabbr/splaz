@@ -8,7 +8,7 @@ class SpLazGeo:
     """
     Gerenciador de geocodificação para dados LIDAR do GeoSampa.
     """
-    def __init__(self, client: SpLaz = None):
+    def __init__(self, client: SpLaz | None = None):
         self.client = client or SpLaz()
         self._grid = None
         self.geolocator = Nominatim(user_agent="geosp_laz_api_vagas_verdes")
@@ -16,21 +16,14 @@ class SpLazGeo:
     def grid(self) -> gpd.GeoDataFrame:
         """
         Carrega e prepara o Shapefile de articulação automaticamente.
-        Mantém os dados no Ryzen 7 para buscas rápidas.
+        Mantém os dados em memória para buscas rápidas.
         """
         if self._grid is None:
-            
-            shp_path = self.client.ensure_grid_data()
-            
-            
-            gdf = gpd.read_file(shp_path)
-            
+            gdf = gpd.read_file(self.client.grid_path)
             
             if gdf.crs is None:
-                
                 gdf = gdf.set_crs(epsg=EPSG_SAO_PAULO)
             elif gdf.crs.to_epsg() != EPSG_SAO_PAULO:
-                
                 gdf = gdf.to_crs(epsg=EPSG_SAO_PAULO)
             
             self._grid = gdf
@@ -47,10 +40,11 @@ class SpLazGeo:
         """
         ponto_gps = gpd.GeoSeries([Point(lon, lat)], crs="EPSG:4326")
         ponto_sp = ponto_gps.to_crs(epsg=EPSG_SAO_PAULO).iloc[0]
-        resultado = self.grid[self.grid.contains(ponto_sp)]
+        resultado = self.grid[self.grid.contains(ponto_sp)] #type: ignore
         if resultado.empty:
             raise ValueError(f"Coordenadas ({lat}, {lon}) fora da cobertura de SP.")
-        return str(resultado.iloc[0]['qmdt_cod'])
+        print(resultado.columns)
+        return str(resultado.iloc[0]['cd_quadric'])
 
     def get_quadrant_by_address(self, address: str) -> str:
         """
@@ -64,7 +58,7 @@ class SpLazGeo:
         location = self.geolocator.geocode(search_query)
         if not location:
             raise ValueError(f"Endereço não localizado: {address}")
-        return self.get_quadrant_by_coords(location.latitude, location.longitude)
+        return self.get_quadrant_by_coords(location.latitude, location.longitude) #type: ignore
 
     def get_quadrants_by_neighborhood(self, neighborhood: str) -> list[str]:
         """
@@ -79,12 +73,12 @@ class SpLazGeo:
         if not location:
             raise ValueError(f"Bairro não encontrado: {neighborhood}")
 
-        bbox = location.raw['boundingbox']
+        bbox = location.raw['boundingbox'] # type: ignore
         lat_min, lat_max, lon_min, lon_max = float(bbox[0]), float(bbox[1]), float(bbox[2]), float(bbox[3])
         
         area_gps = gpd.GeoSeries([box(lon_min, lat_min, lon_max, lat_max)], crs="EPSG:4326")
         area_sp = area_gps.to_crs(epsg=EPSG_SAO_PAULO).iloc[0]
 
-        intersecao = self.grid[self.grid.intersects(area_sp)]
+        intersecao = self.grid[self.grid.intersects(area_sp)] #type: ignore
         
-        return intersecao['qmdt_cod'].unique().tolist()
+        return intersecao['cd_quadric'].unique().tolist()
