@@ -21,14 +21,14 @@ Este projeto é a base técnica do projeto Vagas Verdes, focado em identificar �
 
 ## 📦 Instalação
 
-```` Bash
+``` Bash
 pip install splaz
 ```
 ### 🛠 Exemplos de Uso
 #### 1. Configuração Inicial
 ```Python
 
-from splaz import GeospLidarClient, GeospGeocoder
+from splaz import SpLaz, SpLazGeo
 
 client = SpLaz()
 geo = SpLazGeo(client=client)
