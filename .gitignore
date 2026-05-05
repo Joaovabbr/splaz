@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 .venv/
 env/
+.env/
 build/
 dist/
 *.egg-info/
@@ -22,10 +23,10 @@ data/raw/
 data/processed/
 *.laz
 *.zip
-*.shp
-*.shx
-*.dbf
-*.prj
+.shp
+.shx
+.dbf
+.prj
 *.cpg
 
 # --- VS Code e Sistema ---
